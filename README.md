@@ -1,6 +1,6 @@
 # SciOly24_Robot_Tour
 
-Code for Science Olympiad 2024 robot to compete in the "Robot Tour" event.
+Project page for Science Olympiad 2024 robot to compete in the "Robot Tour" event.
 
 **hardware** 
 - Arduino Leonardo
