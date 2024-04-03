@@ -9,8 +9,8 @@ Encoder knobRight(1, 7);
 enum Direction {
   start = 0,
   forwardDefualt = 1,
-  leftTurn = 3,
   rightTurn = 2,
+  leftTurn = 3,
   end = 4,
 };
 
@@ -24,13 +24,13 @@ constexpr int DIRECTION_PIN_L = 13;
 constexpr int PWM_PIN_L = 11;
 constexpr int BRAKE_PIN_L = 8;
 
-constexpr int directionsOffsets[] = { 10, 36, 5, 5, 0 };  // start-forward-left right-stop encoder offsets
-
+constexpr int directionsOffsetsLeft[] = { 10, 36, 5, -5, 0 };  // start-forward-left right-stop encoder offsets
+constexpr int directionsOffsetsRight[] = { 10, 36, -5, 5, 0 };  // start-forward-left right-stop encoder offsets
 //creating intial pos, unsure why they are big num, but thats how the example code had it
 int posRight = -999,
     posLeft = -999;
 
-//sets the prev values to 0, unsure why they are big num, but thats how the example
+//sets the prev values to 0, unsure why they are 0, but thats how the example
 int prevLeft = 0,
     prevRight = 0;
 
@@ -72,12 +72,16 @@ void loop() {
   posRight = knobRight.read();
 
   // checks if the right has been reached by comparing the posRight to the position before the current direction minus the offset of the current direction, stops if true
-  rightReached = (posRight <= (prevRight - directionsOffsets[indexB]));
+  float targetRight = (prevRight - directionsOffsetsRight[indexB]);
+
+  rightReached = (posRight == targetRight);
   if (rightReached) {
     stopR();
   }
   // checks if the left has been reached by comparing the posRight to the position before the current direction plus the offset of the current direction, stops if true
-  leftReached = (posLeft >= (prevLeft + directionsOffsets[indexB]));
+  float targetLeft = (prevLeft + directionsOffsetsLeft[indexB]);
+  
+  leftReached = (posLeft >= targetLeft);
   if (leftReached) {
     stopL();
   }
@@ -94,29 +98,29 @@ void loop() {
 
 void drive(int index) {
   switch (directions[index]) {
-    case 1:  //if forward
+    case forwardDefualt:  //if forward
       if (!rightReached)
         forwardR();
       if (!leftReached)
         forwardL();
       break;
-    case 2:  //if right
+    case rightTurn:  //if right
       if (!rightReached)
         reverseR();
       if (!leftReached)
         forwardL();
       break;
-    case 3:  //if left
+    case leftTurn:  //if left
       if (!rightReached)
         forwardR();
       if (!leftReached)
         reverseL();
       break;
-    case 4:  //if stop
+    case end:  //if stop
       stopL();
       stopR();
       break;
-    case 0:  // if start
+    case start:  // if start
       if (!rightReached)
         forwardR();
       if (!leftReached)
@@ -138,23 +142,23 @@ void stopR() {  //stops right motors
 void forwardR() {  //starts right motors
   digitalWrite(DIRECTION_PIN_R, LOW);
   digitalWrite(BRAKE_PIN_R, LOW);
-  analogWrite(PWM_PIN_R, 125);
+  analogWrite(PWM_PIN_R, 105);
 }
 
 void forwardL() {  //starts left motors
   digitalWrite(DIRECTION_PIN_L, HIGH);
   digitalWrite(BRAKE_PIN_L, LOW);
-  analogWrite(PWM_PIN_L, 125);
+  analogWrite(PWM_PIN_L, 105);
 }
 
 void reverseL() {  //reverse left motors
   digitalWrite(DIRECTION_PIN_L, LOW);
   digitalWrite(BRAKE_PIN_L, LOW);
-  analogWrite(PWM_PIN_L, 125);
+  analogWrite(PWM_PIN_L, 105);
 }
 
 void reverseR() {  //reverse right motors
   digitalWrite(DIRECTION_PIN_R, HIGH);
   digitalWrite(BRAKE_PIN_R, LOW);
-  analogWrite(PWM_PIN_R, 125);
+  analogWrite(PWM_PIN_R, 105);
 }
