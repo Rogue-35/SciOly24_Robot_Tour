@@ -13,10 +13,11 @@ enum Direction {
   end               = 4,
   forwardStart      = 5,
   forwardTurnLeft   = 6,
-  forwardTurnRight  = 7
+  forwardTurnRight  = 7,
+  fuck              = 8
 };
 
-unsigned int directions[] = { 0, 5, 2, 6, 3, 7, 3, 7, 3, 3, 7, 1, 1, 3, 7, 3, 3, 7, 1, 4 };
+unsigned int directions[] = { 0, 8, 0, 8, 4};
 unsigned int directionsIndexL = 0;
 unsigned int directionsIndexR = 0;
 unsigned int directionsValue = 0;
@@ -32,11 +33,11 @@ constexpr int brakePinR = 9;
 constexpr int directionPinL = 13;
 constexpr int pwmPinL = 11;
 constexpr int brakePinL = 8;
-constexpr int startDist = 36;
-constexpr int forwardDist = 102;
+constexpr int startDist = 51;
+constexpr int forwardDist = 76;
 constexpr int turnDistR = 75;
 constexpr int turnDistL = 74;
-constexpr int forwardStart = 137;
+
 constexpr int forwardTurn = 126;
 
 bool tempL = 0;
@@ -243,27 +244,28 @@ if (tempR == 0) {
   }else {
     brakeL();
     brakeR();
+    fucker(1000);
   }
 }
 void forwardR() {
   digitalWrite(directionPinR, LOW);
   digitalWrite(brakePinR, LOW);
-  analogWrite(pwmPinR, 255);
+  analogWrite(pwmPinR, 118);
 }
 void forwardL() {
   digitalWrite(directionPinL, HIGH);
   digitalWrite(brakePinL, LOW);
-  analogWrite(pwmPinL, 245);
+  analogWrite(pwmPinL, 125);
 }
 void reverseR() {
   digitalWrite(directionPinR, HIGH);
   digitalWrite(brakePinR, LOW);
-  analogWrite(pwmPinR, 255);
+  analogWrite(pwmPinR, 118);
 }
 void reverseL() {
   digitalWrite(directionPinL, LOW);
   digitalWrite(brakePinL, LOW);
-  analogWrite(pwmPinL, 245);
+  analogWrite(pwmPinL, 125);
 }
 void brakeR() {
   digitalWrite(brakePinR, HIGH);
@@ -272,4 +274,7 @@ void brakeR() {
 void brakeL() {
   digitalWrite(brakePinL, HIGH);
   analogWrite(pwmPinL, 0);
+}
+void fucker(int time){
+  delay(time);
 }
