@@ -73,17 +73,29 @@ void loop() {
 
   // checks if the right has been reached by comparing the posRight to the position before the current direction minus the offset of the current direction, stops if true
   float targetRight = (prevRight - directionsOffsetsRight[indexB]);
-
-  rightReached = (posRight == targetRight);
-  if (rightReached) {
-    stopR();
+  if(directions[indexA] != 2){
+    rightReached = (posRight <= targetRight);
+    if (rightReached) {
+      stopR();
+  }
+  }else{
+    rightReached = (posRight >= targetRight);
+    if (rightReached) {
+      stopR();
+  }
   }
   // checks if the left has been reached by comparing the posRight to the position before the current direction plus the offset of the current direction, stops if true
   float targetLeft = (prevLeft + directionsOffsetsLeft[indexB]);
-  
-  leftReached = (posLeft >= targetLeft);
-  if (leftReached) {
-    stopL();
+  if(directions[indexA] != 3){
+    leftReached = (posLeft >= targetLeft);
+    if (leftReached) {
+      stopL();
+  }
+  }else{
+    leftReached = (posLeft <= targetLeft);
+    if (leftReached) {
+      stopL();
+
   }
   //if both left and right have been reached, move on to the next command by setting the new prev right and left values, increasing the directions index and assigning the new offset index
   if (leftReached && rightReached) {
