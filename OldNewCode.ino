@@ -14,14 +14,15 @@ enum Direction {
   forwardStart      = 5,
   forwardTurnLeft   = 6,
   forwardTurnRight  = 7,
-  pause              = 8
+  pause              = 8 // does not work, acts the same as end for some reason
 
   //if runinng ff need to run ffs
   //if running sf need run ssss
   //
 };
-
-unsigned int directions[] = {1,0,1 ,4};
+// 0,2,1,4 easy
+//         hard
+unsigned int directions[] = {0, 0 , 0 , 0 , 1 , 0 , 1 , 0 , 2 , 1 , 0 , 1 , 2 , 1 , 1 , 0 , 1 , 0 , 2 , 1 ,4};
 unsigned int directionsIndexL = 0;
 unsigned int directionsIndexR = 0;
 unsigned int directionsValue = 0;
@@ -39,8 +40,8 @@ constexpr int pwmPinL = 11;
 constexpr int brakePinL = 8;
 constexpr int startDist = 44;
 constexpr int forwardDist = 106;
-constexpr int turnDistR = 37; //34
-constexpr int turnDistL = 38; //34
+constexpr int turnDistR = 46; //34
+constexpr int turnDistL = 46; //34
 
 constexpr int forwardTurn = 126;
 
@@ -254,7 +255,7 @@ if (tempR == 0) {
 void forwardR() {
   digitalWrite(directionPinR, LOW);
   digitalWrite(brakePinR, LOW);
-  analogWrite(pwmPinR, 145);
+  analogWrite(pwmPinR, 150);
 }
 void forwardL() {
   digitalWrite(directionPinL, HIGH);
@@ -264,7 +265,7 @@ void forwardL() {
 void reverseR() {
   digitalWrite(directionPinR, HIGH);
   digitalWrite(brakePinR, LOW);
-  analogWrite(pwmPinR, 145);
+  analogWrite(pwmPinR, 150);
 }
 void reverseL() {
   digitalWrite(directionPinL, LOW);
